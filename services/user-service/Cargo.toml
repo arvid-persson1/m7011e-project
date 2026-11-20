@@ -1,0 +1,11 @@
+[package]
+name = "user-service"
+edition.workspace = true
+
+[lints]
+workspace = true
+
+[dependencies]
+rocket = { version = "0.5.4", default-features = false, features = ["http2", "json", "uuid"] }
+serde = { version = "1.0.229", default-features = false, features = ["std"] }
+sqlx = { version = "0.9.1", default-features = false, features = ["derive", "postgres", "uuid"] }

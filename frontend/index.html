@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>Proof of concept</h1>
+<button id="load">Load users</button>
+<p id="error" class="error"></p>
+<ul id="users"></ul>
+
+<script>
+    document.getElementById('load').addEventListener('click', async () => {
+        const errorField = document.getElementById('error');
+        const usersField = document.getElementById('users');
+        errorField.textContent = '';
+        usersField.innerHTML = '';
+        try {
+            const response = await fetch('/api/users');
+            if (!response.ok) {
+                throw new Error(`HTTP ${response.status}`);
+            }
+            const users = await response.json();
+            for (const user of users) {
+                const li = document.createElement('li');
+                li.textContent = user.email;
+                usersField.appendChild(li);
+            }
+        } catch (e) {
+            errorField.textContent = `Error: ${e.message}`;
+        }
+    });
+</script>
+</body>
+</html>

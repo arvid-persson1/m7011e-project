@@ -1,0 +1,14 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: user-service-postgres
+  namespace: m7011e-app
+spec:
+  instances: 1
+  storage:
+    size: 2Gi
+    storageClass: local-path
+  bootstrap:
+    initdb:
+      database: user_service
+      owner: user_service
