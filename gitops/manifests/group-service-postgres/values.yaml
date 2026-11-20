@@ -1,0 +1,3 @@
+dbName: group_service
+dbStorage: 2Gi
+existingSecret: group-service-postgres-credentials

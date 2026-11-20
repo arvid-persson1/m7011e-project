@@ -1,0 +1,16 @@
+Dockerfile
+.dockerignore
+
+.git
+.gitignore
+
+.idea
+
+charts
+frontend
+gitops
+clippy.toml
+rustfmt.toml
+taplo.toml
+
+target

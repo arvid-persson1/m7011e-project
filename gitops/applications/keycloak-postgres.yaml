@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: keycloak-postgres
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/arvid-persson1/m7011e-project.git
+      targetRevision: main
+      path: charts/postgres
+      helm:
+        releaseName: keycloak-postgres
+        valueFiles:
+          - $values/gitops/manifests/keycloak-postgres/values.yaml
+    - repoURL: https://github.com/arvid-persson1/m7011e-project.git
+      targetRevision: main
+      path: gitops/manifests/keycloak-postgres
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: keycloak
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

@@ -1,0 +1,44 @@
+replicaCount: 1
+
+nameOverride: ""
+fullnameOverride: ""
+
+image:
+  repository: ghcr.io/arvid-persson1/group-service
+  tag: dev
+  # TODO: Change to `IfNotPresent` or remove this comment later depending on decided tag semantics.
+  pullPolicy: Always
+
+service:
+  type: ClusterIP
+  port: 80
+  containerPort: 8000
+
+database:
+  existingSecret: group-service-postgres-credentials
+  secretKey: GROUP_SERVICE_DATABASE_URL
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 500m
+    memory: 256Mi
+
+podSecurityContext:
+  runAsNonRoot: true
+  runAsUser: 65532
+  runAsGroup: 65532
+  seccompProfile:
+    type: RuntimeDefault
+
+containerSecurityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  capabilities:
+    drop:
+      - ALL
+
+podAnnotations:
+podLabels:

@@ -1,0 +1,3 @@
+dbName: user_service
+dbStorage: 2Gi
+existingSecret: user-service-postgres-credentials

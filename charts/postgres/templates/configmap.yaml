@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-config
+  labels:
+    app.kubernetes.io/name: {{ .Chart.Name }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+data:
+  POSTGRES_USER: {{ .Values.dbUser | quote }}
+  POSTGRES_DB: {{ .Values.dbName | quote }}
+  PGDATA: "/var/lib/postgresql/data"
+  TZ: {{ .Values.timezone | quote }}

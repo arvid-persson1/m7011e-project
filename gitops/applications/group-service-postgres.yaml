@@ -1,0 +1,30 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: group-service-postgres
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  project: default
+  sources:
+    - repoURL: https://github.com/arvid-persson1/m7011e-project.git
+      targetRevision: main
+      path: charts/postgres
+      helm:
+        releaseName: group-service-postgres
+        valueFiles:
+          - $values/gitops/manifests/group-service-postgres/values.yaml
+    - repoURL: https://github.com/arvid-persson1/m7011e-project.git
+      targetRevision: main
+      path: gitops/manifests/group-service-postgres
+      ref: values
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: time-tracker
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
