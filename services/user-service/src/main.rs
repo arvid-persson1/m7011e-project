@@ -10,12 +10,13 @@
 
 use {
     rocket::{
-        Config, State, get,
+        State, build, get,
         http::Status,
         launch, routes,
         serde::{Serialize, json::Json, uuid::Uuid},
     },
-    sqlx::{FromRow, PgPool},
+    sqlx::{FromRow, PgPool, query_as},
+    std::env::var as env_var,
 };
 
 #[derive(Serialize)]
@@ -37,28 +38,21 @@ const fn health() -> Json<Health> {
 #[get("/users")]
 async fn list_users(db: &State<PgPool>) -> Result<Json<Vec<UserSummary>>, Status> {
     // TODO: Use compile-time checked macro.
-    let users = sqlx::query_as(
-        "SELECT id, email FROM users ORDER BY created_at LIMIT 100",
-    )
-    .fetch_all(&**db)
-    .await
-    .map_err(|_| Status::InternalServerError)?;
+    let users = query_as("SELECT id, email FROM users ORDER BY created_at LIMIT 100")
+        .fetch_all(&**db)
+        .await
+        .map_err(|_| Status::InternalServerError)?;
 
     Ok(Json(users))
 }
 
 #[launch]
 async fn rocket() -> _ {
-    let figment = Config::figment();
-    let database_url = figment
-        .extract_inner::<String>("databases.user_db.url")
-        .expect("DATABASE_URL must be set.");
-
+    // NOTE: Does not exist at compile time; `env` macro can't be used.
+    let database_url = env_var("DATABASE_URL").expect("DATABASE_URL must be set.");
     let pool = PgPool::connect(&database_url)
         .await
         .expect("Failed to connect to database.");
 
-    rocket::custom(figment)
-        .manage(pool)
-        .mount("/", routes![health, list_users])
+    build().manage(pool).mount("/", routes![health, list_users])
 }

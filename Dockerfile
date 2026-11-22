@@ -2,7 +2,7 @@ FROM lukemathwalker/cargo-chef:0.1.78-rust-1.100-slim-bookworm AS chef
 WORKDIR /app
 
 FROM chef AS planner
-COPY . .
+COPY Cargo.toml Cargo.lock ./
 RUN cargo chef prepare
 
 FROM chef AS builder

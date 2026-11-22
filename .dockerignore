@@ -3,7 +3,11 @@ Dockerfile
 
 .git
 .gitignore
+.idea
+
+charts
+frontend
+gitops
+taplo.toml
 
 target
-
-.idea

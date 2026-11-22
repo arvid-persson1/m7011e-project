@@ -1,0 +1,27 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: user-service-postgres
+  namespace: time-tracker
+spec:
+  instances: 1
+  storage:
+    # WARN: A change to this value does not trigger an automatic update to existing storage.
+    size: 2Gi
+    storageClass: local-path
+    retentionPolicy: Retain
+  resources:
+    requests:
+      memory: 1Gi
+      cpu: 500m
+    limits:
+      memory: 1Gi
+      cpu: 500m
+  postgresql:
+    parameters:
+      shared_buffers: 256MB
+      max_wal_size: 1GB
+      wal_compression: on
+  bootstrap:
+    initdb:
+      database: user_service
