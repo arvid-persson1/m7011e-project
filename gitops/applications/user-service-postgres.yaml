@@ -6,7 +6,7 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/arvid-persson1/m7011e-app.git
+    repoURL: https://github.com/arvid-persson1/m7011e-project.git
     # TODO: Set to `HEAD`.
     targetRevision: proof_of_concept
     path: gitops/manifests
