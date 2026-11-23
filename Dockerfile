@@ -3,7 +3,11 @@ WORKDIR /app
 
 FROM chef AS planner
 COPY --parents **/Cargo.toml Cargo.lock ./
-RUN cargo chef prepare
+# Dummy source files for workspace members.
+# FIXME: Doesn't work if with members specifying a custom path to the entrypoint.
+RUN find . -name Cargo.toml -exec sh -c \
+    'dir=$(dirname "$1"); mkdir "$dir/src"; touch "$dir/src/lib.rs" "$dir/src/main.rs"' _ {} \; && \
+    cargo chef prepare
 
 FROM chef AS builder
 COPY --from=planner /app/recipe.json recipe.json
