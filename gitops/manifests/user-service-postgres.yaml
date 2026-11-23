@@ -21,7 +21,7 @@ spec:
     parameters:
       shared_buffers: 256MB
       max_wal_size: 1GB
-      wal_compression: on
+      wal_compression: lz4
   bootstrap:
     initdb:
       database: user_service
