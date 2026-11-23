@@ -21,6 +21,7 @@ RUN --mount=type=cache,target=/usr/local/cargo/registry \
     cp target/release/user-service /user-service
 
 FROM gcr.io/distroless/cc-debian12:nonroot AS runtime
+LABEL org.opencontainers.image.source=https://github.com/arvid-persson1/m7011e-project
 WORKDIR /app
 COPY --from=builder --chmod=500 --chown=65532:65532 /user-service /app/user-service
 EXPOSE 8000
