@@ -4,6 +4,8 @@ kind: Ingress
 metadata:
   # FIXME: Refactor hardcoded names.
   name: frontend
+  labels:
+    app: frontend
   annotations:
     cert-manager.io/cluster-issuer: {{ .Values.ingress.clusterIssuer }}
 spec:
