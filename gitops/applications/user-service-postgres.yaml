@@ -1,18 +1,24 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: user-service-postgresql
+  name: user-service-postgres
   namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
 spec:
   project: default
-  source:
-    repoURL: https://github.com/arvid-persson1/m7011e-project.git
-    # TODO: Set to `HEAD`.
-    targetRevision: proof_of_concept
-    path: gitops/manifests
-    directory:
-      recurse: false
-      include: user-service-postgres.yaml
+  sources:
+    - repoURL: https://github.com/arvid-persson1/m7011e-project.git
+      targetRevision: proof_of_concept
+      path: charts/postgres
+      helm:
+        releaseName: user-service-postgres
+        valueFiles:
+          - $values/values.yaml
+    - repoURL: https://github.com/arvid-persson1/m7011e-project.git
+      targetRevision: proof_of_concept
+      path: gitops/manifests/user-service-postgres
+      ref: values
   destination:
     server: https://kubernetes.default.svc
     namespace: time-tracker

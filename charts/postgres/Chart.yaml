@@ -1,0 +1,6 @@
+apiVersion: v2
+name: postgresql-instance
+type: application
+version: "0.1.0"
+appVersion: "16"
+description: Reusable chart for a single PostgreSQL instance.

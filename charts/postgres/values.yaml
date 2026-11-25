@@ -1,0 +1,9 @@
+dbUser: postgres
+dbName: db
+dbImage: postgres:16
+timezone: Europe/Stockholm
+storageClassName: local-path
+dbStorage: 4Gi
+dbResourceRequestCpu: 500m
+dbResourceRequestMemory: 1Gi
+# NOTE: `existingSecret` must be supplied per-release.
