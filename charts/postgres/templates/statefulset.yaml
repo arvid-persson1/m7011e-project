@@ -17,7 +17,19 @@ spec:
         app.kubernetes.io/name: {{ .Chart.Name }}
         app.kubernetes.io/instance: {{ .Release.Name }}
     spec:
+      initContainers:
+        - name: init-permissions
+          image: {{ .Values.dbImage }}
+          command: [ "sh", "-c", "chown -R 999:999 /var/lib/postgresql/data" ]
+          securityContext:
+            runAsUser: 0
+          volumeMounts:
+            - name: postgresdb
+              mountPath: /var/lib/postgresql/data
       securityContext:
+        runAsNonRoot: true
+        runAsUser: 999
+        runAsGroup: 999
         fsGroup: 999
         seccompProfile:
           type: RuntimeDefault
