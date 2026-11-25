@@ -16,7 +16,7 @@ service:
 
 database:
   existingSecret: user-service-postgres-credentials
-  secretKey: uri
+  secretKey: USER_SERVICE_DATABASE_URL
 
 resources:
   requests:
