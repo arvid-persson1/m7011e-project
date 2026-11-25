@@ -20,12 +20,14 @@ spec:
       initContainers:
         - name: init-permissions
           image: {{ .Values.dbImage }}
-          command: [ "sh", "-c", "chown -R 999:999 /var/lib/postgresql/data" ]
+          command: ["sh", "-c", "chown -R 999:999 /var/lib/postgresql/data /var/run/postgresql"]
           securityContext:
             runAsUser: 0
           volumeMounts:
             - name: postgresdb
               mountPath: /var/lib/postgresql/data
+            - name: run
+              mountPath: /var/run/postgresql
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
@@ -41,7 +43,7 @@ spec:
             - containerPort: 5432
           securityContext:
             allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
+            readOnlyRootFilesystem: false
             capabilities:
               drop: ["ALL"]
             # HACK: Some k3s/Ubuntu hosts' default AppArmor profiles block the signals Postgres
@@ -63,12 +65,12 @@ spec:
                   name: {{ required "`values.existingSecret` must be set per-release" .Values.existingSecret }}
                   key: POSTGRES_PASSWORD
           volumeMounts:
-            - mountPath: /var/lib/postgresql/data
-              name: postgresdb
-            - mountPath: /var/run/postgresql
-              name: run
-            - mountPath: /tmp
-              name: tmp
+            - name: postgresdb
+              mountPath: /var/lib/postgresql/data
+            - name: run
+              mountPath: /var/run/postgresql
+            - name: tmp
+              mountPath: /tmp
           resources:
             requests:
               cpu: {{ .Values.dbResourceRequestCpu | quote }}
