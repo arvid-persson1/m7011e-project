@@ -29,10 +29,6 @@ spec:
             - name: run
               mountPath: /var/run/postgresql
       securityContext:
-        runAsNonRoot: true
-        runAsUser: 999
-        runAsGroup: 999
-        fsGroup: 999
         seccompProfile:
           type: RuntimeDefault
       containers:
@@ -42,6 +38,9 @@ spec:
           ports:
             - containerPort: 5432
           securityContext:
+            runAsNonRoot: true
+            runAsUser: 999
+            runAsGroup: 999
             allowPrivilegeEscalation: false
             readOnlyRootFilesystem: false
             capabilities:
