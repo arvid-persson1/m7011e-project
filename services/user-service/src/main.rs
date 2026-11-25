@@ -49,7 +49,7 @@ async fn list_users(db: &State<PgPool>) -> Result<Json<Vec<UserSummary>>, Status
 #[launch]
 async fn rocket() -> _ {
     // NOTE: Does not exist at compile time; `env` macro can't be used.
-    let database_url = env_var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let database_url = env_var("USER_SERVICE_DATABASE_URL").expect("USER_SERVICE_DATABASE_URL must be set");
     let pool = PgPool::connect(&database_url)
         .await
         .expect("failed to connect to database");
