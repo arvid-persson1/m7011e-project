@@ -14,7 +14,7 @@ spec:
       helm:
         releaseName: user-service-postgres
         valueFiles:
-          - $values/values.yaml
+          - $values/gitops/manifests/user-service-postgres/values.yaml
     - repoURL: https://github.com/arvid-persson1/m7011e-project.git
       targetRevision: proof_of_concept
       path: gitops/manifests/user-service-postgres
