@@ -14,7 +14,7 @@ jobs:
       contents: read
       packages: write
     concurrency:
-      group: publish-${{ github.ref }}
+      group: publish-${{ github.ref }}-${{ matrix.name }}
       cancel-in-progress: true
     strategy:
       fail-fast: false
