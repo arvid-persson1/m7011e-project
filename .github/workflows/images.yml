@@ -20,10 +20,8 @@ jobs:
         include:
           - name: user-service
             context: .
-            file: Dockerfile
           - name: frontend
             context: frontend
-            file: frontend/Dockerfile
     steps:
       - uses: actions/checkout@v4
 
