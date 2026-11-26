@@ -1,0 +1,4 @@
+dbUser: keycloak
+dbName: keycloak
+dbStorage: 2Gi
+existingSecret: keycloak-postgres-credentials

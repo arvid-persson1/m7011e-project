@@ -1,0 +1,40 @@
+replicas: 1
+
+image:
+  repository: quay.io/keycloak/keycloak
+  tag: "23.0"
+  pullPolicy: IfNotPresent
+
+admin:
+  existingSecret: keycloak-admin-credentials
+  usernameKey: KEYCLOAK_ADMIN
+  passwordKey: KEYCLOAK_ADMIN_PASSWORD
+
+database:
+  vendor: postgres
+  host: keycloak-postgres-service
+  port: 5432
+  name: keycloak
+  username: keycloak
+  existingSecret: keycloak-postgres-credentials
+  passwordKey: POSTGRES_PASSWORD
+
+service:
+  port: 8080
+
+ingress:
+  enabled: true
+  className: traefik
+  host: auth.group-1-m7011e-ltu.se
+  tlsSecret: keycloak-tls
+  clusterIssuer: letsencrypt-prod
+
+# start-dev rebuilds Keycloak on every boot, which is CPU-heavy; keep requests
+# modest while giving enough CPU/memory headroom to finish startup.
+resources:
+  requests:
+    cpu: 100m
+    memory: 256Mi
+  limits:
+    cpu: "2"
+    memory: 1536Mi
