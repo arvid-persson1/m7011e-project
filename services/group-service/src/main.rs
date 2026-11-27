@@ -34,7 +34,7 @@ const fn health() -> Json<Health> {
     Json(Health { status: "ok" })
 }
 
-#[get("/users")]
+#[get("/groups")]
 async fn list_groups(db: &State<PgPool>) -> Result<Json<Vec<Group>>, Status> {
     // TODO: Use compile-time checked macro.
     let groups = query_as("SELECT name FROM groups LIMIT 100")
