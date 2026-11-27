@@ -564,6 +564,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e4eba85ea1d0a966a983acd07deee566e67395d2d96b6fb39e62b5a833f1eb0b"
 
 [[package]]
+name = "group-service"
+version = "0.1.0"
+dependencies = [
+ "rocket",
+ "serde",
+ "sqlx",
+]
+
+[[package]]
 name = "h2"
 version = "0.4.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2199,7 +2208,7 @@ dependencies = [
 
 [[package]]
 name = "user-service"
-version = "0.0.0"
+version = "0.1.0"
 dependencies = [
  "rocket",
  "serde",

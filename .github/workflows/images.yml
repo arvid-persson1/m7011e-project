@@ -22,6 +22,10 @@ jobs:
         include:
           - name: user-service
             context: .
+            build-args: SERVICE=user-service
+          - name: group-service
+            context: .
+            build-args: SERVICE=group-service
           - name: frontend
             context: frontend
     steps:
@@ -38,8 +42,9 @@ jobs:
       - uses: docker/build-push-action@v7
         with:
           context: ${{ matrix.context }}
-          file: ${{ matrix.file }}
+          file: ${{ matrix.dockerfile }}
           push: true
+          build-args: ${{ matrix.build-args }}
           tags: |
             ghcr.io/arvid-persson1/${{ matrix.name }}:${{ github.ref_name == 'main' && 'latest' || 'dev' }}
             ghcr.io/arvid-persson1/${{ matrix.name }}:sha-${{ github.sha }}

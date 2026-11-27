@@ -1,7 +1,5 @@
 [workspace]
-members = [
-    "services/user-service",
-]
+members = ["services/user-service", "services/group-service"]
 resolver = "3"
 
 [workspace.package]
