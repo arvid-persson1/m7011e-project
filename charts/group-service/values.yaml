@@ -5,8 +5,7 @@ fullnameOverride: ""
 
 image:
   repository: ghcr.io/arvid-persson1/group-service
-  tag: dev
-  # TODO: Change to `IfNotPresent` or remove this comment later depending on decided tag semantics.
+  tag: latest
   pullPolicy: Always
 
 service:
